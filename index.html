@@ -1,47 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>For Chickadee</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>💚</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f5f7f4;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .card {
+      background: white;
+      padding: 40px 50px;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-weight: 500;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .buttons {
+      position: relative;
+      transition: opacity 1s ease;
+    }
+
+    button {
+      padding: 12px 28px;
+      font-size: 16px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+    }
+
+    #yesBtn {
+      background: #8fbf9f;
+      color: white;
+      margin-right: 20px;
+    }
+
+    #noBtn {
+      background: #e6e6e6;
+      color: #444;
+      position: absolute;
+    }
+
+    #message {
+      opacity: 0;
+      transition: opacity 2s ease;
+      margin-top: 25px;
+      font-size: 18px;
+      color: #444;
+      line-height: 1.6;
+      text-align: center;
+    }
+  </style>
 </head>
+
 <body>
 
-<audio id="bgMusic" loop>
-  <source src="song.mp3" type="audio/mpeg">
-</audio>
+  <div class="card">
+    <h1>Will you be my Valentine? 💚</h1>
 
-<div class="card">
-  <h1>Hi Ms Chickadee</h1>
+    <div class="buttons">
+      <button id="yesBtn">Yes</button>
+      <button id="noBtn">No</button>
+    </div>
 
-  <p>
-    Being around you, there is always a verse that comes to mind.
-  </p>
+    <div id="message"></div>
 
-  <p>
-    “I am my beloved’s, and my beloved is mine.”
-    <br>
-    <em>Song of Solomon 2:16</em>
-  </p>
-
-  <div class="photo-frame">
-    <img src="photo.jpg" alt="Us">
-    <span class="caption">me & you</span>
-  </div>
-  
-
-  <p style="margin-top:20px;">
-    <strong>Will you be my Valentine?</strong>
-  </p>
-
-  <div class="buttons">
-    <button id="yesBtn">Yes</button>
-    <button id="noBtn">No</button>
+    <audio id="bgMusic" src="your-music.mp3"></audio>
   </div>
 
-  <p id="message"></p>
-</div>
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const message = document.getElementById("message");
+    const music = document.getElementById("bgMusic");
+    const buttons = document.querySelector(".buttons");
 
-<script src="script.js"></script>
+    // NO button runs away
+    noBtn.addEventListener("mouseenter", moveNo);
+    noBtn.addEventListener("touchstart", moveNo);
+
+    function moveNo() {
+      const maxX = window.innerWidth - noBtn.offsetWidth;
+      const maxY = window.innerHeight - noBtn.offsetHeight;
+
+      noBtn.style.left = Math.random() * maxX + "px";
+      noBtn.style.top = Math.random() * maxY + "px";
+    }
+
+    // YES button cinematic moment
+    yesBtn.addEventListener("click", () => {
+      // fade buttons away
+      buttons.style.opacity = "0";
+
+      // play music
+      if (music) {
+        music.volume = 0.5;
+        music.play().catch(() => {});
+      }
+
+      // reveal message
+      setTimeout(() => {
+        message.innerHTML = `
+          hehe thanksha 💕<br>
+          Mwuahhh <br>
+          my Chickadee — always n foreva.
+        `;
+        message.style.opacity = "1";
+      }, 1000);
+
+      // soft heart particles
+      setInterval(spawnHeart, 900);
+    });
+
+    function spawnHeart() {
+      const heart = document.createElement("div");
+      heart.innerText = "💚";
+      heart.style.position = "fixed";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.bottom = "0";
+      heart.style.fontSize = "16px";
+      heart.style.opacity = "0.6";
+      heart.style.transition = "transform 4s linear, opacity 4s linear";
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.style.transform = "translateY(-100vh)";
+        heart.style.opacity = "0";
+      }, 50);
+
+      setTimeout(() => heart.remove(), 4000);
+    }
+  </script>
+
 </body>
 </html>
