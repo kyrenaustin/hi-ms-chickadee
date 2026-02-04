@@ -14,6 +14,7 @@
     align-items: center;
     background: #f5f7f4;
     font-family: "Helvetica Neue", Arial, sans-serif;
+    overflow: hidden;
   }
 
   .card {
@@ -40,7 +41,8 @@
 
   /* PHOTO FRAME */
   .photo-frame {
-    margin: 22px 0;
+    position: relative;
+    margin: 22px 0 40px;
     padding: 8px;
     border-radius: 16px;
     background: #eef1ed;
@@ -81,12 +83,14 @@
     margin-right: 20px;
   }
 
+  /* NO BUTTON */
   #noBtn {
     background: #e6e6e6;
     color: #444;
     position: absolute;
-    left: 140px;
-    top: 0;
+    top: -130px;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   #message {
@@ -97,6 +101,26 @@
     color: #444;
     line-height: 1.6;
     text-align: center;
+  }
+
+  /* HEART CONFETTI */
+  .heart {
+    position: absolute;
+    font-size: 16px;
+    opacity: 0.7;
+    animation: floatUp 4s ease-out forwards;
+    pointer-events: none;
+  }
+
+  @keyframes floatUp {
+    from {
+      transform: translateY(0) scale(1);
+      opacity: 0.8;
+    }
+    to {
+      transform: translateY(-120px) scale(1.4);
+      opacity: 0;
+    }
   }
 </style>
 </head>
@@ -120,7 +144,7 @@
     <em>Song of Solomon 2:16</em>
   </p>
 
-  <div class="photo-frame">
+  <div class="photo-frame" id="photoArea">
     <img src="photo.jpg" alt="Us">
     <span class="caption">me & you</span>
   </div>
@@ -143,22 +167,47 @@
   const message = document.getElementById("message");
   const music = document.getElementById("bgMusic");
   const buttons = document.querySelector(".buttons");
+  const photo = document.getElementById("photoArea");
 
   function moveNo() {
-    const box = buttons.getBoundingClientRect();
-    const maxX = box.width - noBtn.offsetWidth;
-    const maxY = box.height - noBtn.offsetHeight;
+    const photoBox = photo.getBoundingClientRect();
+    const cardBox = document.querySelector(".card").getBoundingClientRect();
+    const padding = 30;
 
-    noBtn.style.left = Math.random() * maxX + "px";
-    noBtn.style.top = Math.random() * maxY + "px";
+    const minX = photoBox.left - cardBox.left - padding;
+    const maxX = photoBox.right - cardBox.left - noBtn.offsetWidth + padding;
+    const minY = photoBox.top - cardBox.top - padding;
+    const maxY = photoBox.bottom - cardBox.top - noBtn.offsetHeight + padding;
+
+    const x = Math.random() * (maxX - minX) + minX;
+    const y = Math.random() * (maxY - minY) + minY;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
   }
 
-  // No button dodges everything
   ["mouseenter", "touchstart", "mousedown", "click"].forEach(evt =>
     noBtn.addEventListener(evt, moveNo)
   );
 
-  // YES button cinematic moment
+  function spawnHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.textContent = "💚";
+
+    const photoBox = photo.getBoundingClientRect();
+    const cardBox = document.querySelector(".card").getBoundingClientRect();
+
+    heart.style.left =
+      photoBox.left - cardBox.left + Math.random() * photoBox.width + "px";
+    heart.style.top =
+      photoBox.bottom - cardBox.top - 10 + "px";
+
+    document.querySelector(".card").appendChild(heart);
+
+    setTimeout(() => heart.remove(), 4000);
+  }
+
   yesBtn.addEventListener("click", () => {
     buttons.style.opacity = "0";
 
@@ -175,6 +224,14 @@
       `;
       message.style.opacity = "1";
     }, 1000);
+
+    // heart confetti burst
+    let count = 0;
+    const heartInterval = setInterval(() => {
+      spawnHeart();
+      count++;
+      if (count > 14) clearInterval(heartInterval);
+    }, 250);
   });
 </script>
 
