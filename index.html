@@ -2,238 +2,49 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For Chickadee</title>
-
-<style>
-  body {
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #f5f7f4;
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    overflow: hidden;
-  }
-
-  .card {
-    background: white;
-    padding: 40px 50px;
-    border-radius: 16px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-    text-align: center;
-    position: relative;
-    max-width: 420px;
-  }
-
-  h1 {
-    font-weight: 500;
-    margin-bottom: 15px;
-    color: #333;
-  }
-
-  p {
-    color: #555;
-    line-height: 1.6;
-    font-size: 16px;
-  }
-
-  /* PHOTO FRAME */
-  .photo-frame {
-    position: relative;
-    margin: 22px 0 40px;
-    padding: 8px;
-    border-radius: 16px;
-    background: #eef1ed;
-    box-shadow: inset 0 0 0 1px #d9ded7;
-  }
-
-  .photo-frame img {
-    width: 100%;
-    display: block;
-    border-radius: 12px;
-  }
-
-  .caption {
-    display: block;
-    margin-top: 8px;
-    font-size: 14px;
-    color: #777;
-  }
-
-  .buttons {
-    position: relative;
-    margin-top: 20px;
-    height: 60px;
-    transition: opacity 1s ease;
-  }
-
-  button {
-    padding: 12px 28px;
-    font-size: 16px;
-    border-radius: 999px;
-    border: none;
-    cursor: pointer;
-  }
-
-  #yesBtn {
-    background: #8fbf9f;
-    color: white;
-    margin-right: 20px;
-  }
-
-  /* NO BUTTON */
-  #noBtn {
-    background: #e6e6e6;
-    color: #444;
-    position: absolute;
-    top: -130px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  #message {
-    opacity: 0;
-    transition: opacity 2s ease;
-    margin-top: 25px;
-    font-size: 18px;
-    color: #444;
-    line-height: 1.6;
-    text-align: center;
-  }
-
-  /* HEART CONFETTI */
-  .heart {
-    position: absolute;
-    font-size: 16px;
-    opacity: 0.7;
-    animation: floatUp 4s ease-out forwards;
-    pointer-events: none;
-  }
-
-  @keyframes floatUp {
-    from {
-      transform: translateY(0) scale(1);
-      opacity: 0.8;
-    }
-    to {
-      transform: translateY(-120px) scale(1.4);
-      opacity: 0;
-    }
-  }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <audio id="bgMusic" loop>
-  <source src="song.mp3" type="audio/mpeg">
+<source src="song.mp3" type="audio/mpeg">
 </audio>
 
 <div class="card">
-  <h1>Chickadee</h1>
+<h1>Chickadee</h1>
 
-  <p>
-    Being around you, there is always a verse that comes to mind.
-  </p>
+<p>
+Being around you, there is always a verse that comes to mind.
+</p>
 
-  <p>
-    “I am my beloved’s, and my beloved is mine.”
-    <br>
-    <em>Song of Solomon 2:16</em>
-  </p>
+<p>
+“I am my beloved’s, and my beloved is mine.”
+<br>
+<em>Song of Solomon 2:16</em>
+</p>
 
-  <div class="photo-frame" id="photoArea">
-    <img src="photo.jpg" alt="Us">
-    <span class="caption">me & you</span>
-  </div>
-
-  <p style="margin-top:20px;">
-    <strong>Will you be my Valentine?</strong>
-  </p>
-
-  <div class="buttons">
-    <button id="yesBtn">Yes</button>
-    <button id="noBtn">No</button>
-  </div>
-
-  <p id="message"></p>
+<div class="photo-frame">
+<img src="photo.jpg" alt="Us">
+<span class="caption">me & you</span>
 </div>
 
-<script>
-  const noBtn = document.getElementById("noBtn");
-  const yesBtn = document.getElementById("yesBtn");
-  const message = document.getElementById("message");
-  const music = document.getElementById("bgMusic");
-  const buttons = document.querySelector(".buttons");
-  const photo = document.getElementById("photoArea");
+<p style="font-size:16px; color:#444; margin-top:15px;">
+From laughter to stillness, nothing truly matters without you.
+</p>
 
-  function moveNo() {
-    const photoBox = photo.getBoundingClientRect();
-    const cardBox = document.querySelector(".card").getBoundingClientRect();
-    const padding = 30;
+<p style="margin-top:20px;">
+<strong>Will you be my Valentine?</strong>
+</p>
 
-    const minX = photoBox.left - cardBox.left - padding;
-    const maxX = photoBox.right - cardBox.left - noBtn.offsetWidth + padding;
-    const minY = photoBox.top - cardBox.top - padding;
-    const maxY = photoBox.bottom - cardBox.top - noBtn.offsetHeight + padding;
+<div class="buttons">
+<button id="yesBtn">Yes</button>
+<button id="noBtn">No</button>
+</div>
 
-    const x = Math.random() * (maxX - minX) + minX;
-    const y = Math.random() * (maxY - minY) + minY;
+<p id="message"></p>
+</div>
 
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-  }
-
-  ["mouseenter", "touchstart", "mousedown", "click"].forEach(evt =>
-    noBtn.addEventListener(evt, moveNo)
-  );
-
-  function spawnHeart() {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.textContent = "💚";
-
-    const photoBox = photo.getBoundingClientRect();
-    const cardBox = document.querySelector(".card").getBoundingClientRect();
-
-    heart.style.left =
-      photoBox.left - cardBox.left + Math.random() * photoBox.width + "px";
-    heart.style.top =
-      photoBox.bottom - cardBox.top - 10 + "px";
-
-    document.querySelector(".card").appendChild(heart);
-
-    setTimeout(() => heart.remove(), 4000);
-  }
-
-  yesBtn.addEventListener("click", () => {
-    buttons.style.opacity = "0";
-
-    if (music) {
-      music.volume = 0.5;
-      music.play().catch(() => {});
-    }
-
-    setTimeout(() => {
-      message.innerHTML = `
-        hehe thanksha 💕<br>
-        Mwuahhh <br>
-        my Chickadee — always n foreva.
-      `;
-      message.style.opacity = "1";
-    }, 1000);
-
-    // heart confetti burst
-    let count = 0;
-    const heartInterval = setInterval(() => {
-      spawnHeart();
-      count++;
-      if (count > 14) clearInterval(heartInterval);
-    }, 250);
-  });
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
