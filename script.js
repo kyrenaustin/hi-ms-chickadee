@@ -13,8 +13,8 @@ noBtn.addEventListener("mouseenter", () => {
 yesBtn.addEventListener("click", () => {
   music.play();
   message.innerHTML = `
-    I knew it 💕<br>
-    You’re my peace, my joy,<br>
-    my Chickadee — always.
+    hehe thanksha 💕<br>
+    Mwuahhh ,<br>
+    my Chickadee — always n foreva.
   `;
 });
