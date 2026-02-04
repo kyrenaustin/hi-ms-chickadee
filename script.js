@@ -14,7 +14,7 @@ yesBtn.addEventListener("click", () => {
   music.play();
   message.innerHTML = `
     hehe thanksha 💕<br>
-    Mwuahhh ,<br>
+    Mwuahhh <br>
     my Chickadee — always n foreva.
   `;
 });
