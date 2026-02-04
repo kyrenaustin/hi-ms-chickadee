@@ -38,18 +38,24 @@
     font-size: 16px;
   }
 
+  /* PHOTO FRAME */
   .photo-frame {
-    margin: 20px 0;
+    margin: 22px 0;
+    padding: 8px;
+    border-radius: 16px;
+    background: #eef1ed;
+    box-shadow: inset 0 0 0 1px #d9ded7;
   }
 
   .photo-frame img {
     width: 100%;
-    border-radius: 14px;
+    display: block;
+    border-radius: 12px;
   }
 
   .caption {
     display: block;
-    margin-top: 6px;
+    margin-top: 8px;
     font-size: 14px;
     color: #777;
   }
@@ -57,6 +63,7 @@
   .buttons {
     position: relative;
     margin-top: 20px;
+    height: 60px;
     transition: opacity 1s ease;
   }
 
@@ -78,6 +85,8 @@
     background: #e6e6e6;
     color: #444;
     position: absolute;
+    left: 140px;
+    top: 0;
   }
 
   #message {
@@ -99,7 +108,7 @@
 </audio>
 
 <div class="card">
-  <h1>Hi Ms Chickadee</h1>
+  <h1>Chickadee</h1>
 
   <p>
     Being around you, there is always a verse that comes to mind.
@@ -135,17 +144,19 @@
   const music = document.getElementById("bgMusic");
   const buttons = document.querySelector(".buttons");
 
-  // NO button runs away
-  noBtn.addEventListener("mouseenter", moveNo);
-  noBtn.addEventListener("touchstart", moveNo);
-
   function moveNo() {
-    const maxX = window.innerWidth - noBtn.offsetWidth;
-    const maxY = window.innerHeight - noBtn.offsetHeight;
+    const box = buttons.getBoundingClientRect();
+    const maxX = box.width - noBtn.offsetWidth;
+    const maxY = box.height - noBtn.offsetHeight;
 
     noBtn.style.left = Math.random() * maxX + "px";
     noBtn.style.top = Math.random() * maxY + "px";
   }
+
+  // No button dodges everything
+  ["mouseenter", "touchstart", "mousedown", "click"].forEach(evt =>
+    noBtn.addEventListener(evt, moveNo)
+  );
 
   // YES button cinematic moment
   yesBtn.addEventListener("click", () => {
